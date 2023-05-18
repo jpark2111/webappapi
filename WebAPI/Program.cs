@@ -18,7 +18,7 @@ namespace WebAPI
                 webBuilder.UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .ConfigureAppConfiguration(ConfigConfiguration)
+                //.ConfigureAppConfiguration(ConfigConfiguration)
                 .ConfigureLogging(ConfigureLogging)
                 .UseStartup<Startup>();
             });
