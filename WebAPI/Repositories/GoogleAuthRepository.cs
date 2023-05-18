@@ -5,9 +5,11 @@ namespace WebAPI.Repositories
     public class GoogleAuthRepository : IGoogleAuthRepository
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        public GoogleAuthRepository(IHttpClientFactory httpClientFactory)
+        private IConfiguration _configuration;
+        public GoogleAuthRepository(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
         public UriBuilder AuthRequest()
         {
@@ -22,7 +24,7 @@ namespace WebAPI.Repositories
             var query = new Dictionary<string, string>()
             {
                 {"response_type","code"},
-                {"client_id" , "254855841315-rmg1jjthsbhgqvl7kqcuopgb5d0n4kpf.apps.googleusercontent.com"},
+                {"client_id" , _configuration.GetValue<string>("GoogleOAuth:Client")},
                 {"scope", "openid%20email&"},
                 {"redirect_uri", "https%3A//localhost:50001/api/users/signin-google"},
                 {"state", token}

@@ -14,11 +14,13 @@ namespace WebAPI.Controllers
     {
         ILogger _logger;
         IOrderRepository _orderRepo;
-        public StripeWebHookAPIController(ILogger<StripeWebHookAPIController> logger, IOrderRepository orderRepository)
+        IConfiguration _configuration;
+        public StripeWebHookAPIController(ILogger<StripeWebHookAPIController> logger, IOrderRepository orderRepository, IConfiguration configuration)
         {
             _logger = logger;
             _orderRepo = orderRepository;
-            StripeConfiguration.ApiKey = "sk_test_51IzyWIALep86Y1moEj5mzhHXqAgVmXdNlGUYLJXYJQOsOzrbEHP1g2CGmLQGlVOCfMkc9iYN9wiqhUihsniRS9hD00CxMJORB5";
+            _configuration = configuration;
+            StripeConfiguration.ApiKey = _configuration.GetValue<string>("Stripe:PrivateKey");
         }
 
         [HttpPost]
@@ -26,7 +28,7 @@ namespace WebAPI.Controllers
         {
             BaseResponse response = null;
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
-            const string endpointSecret = "whsec_TePNCMugubH78tmSjjA9EGd8b8ECHyWq";
+            string endpointSecret = _configuration.GetValue<string>("Stripe:WebHook");
             try
             {
                 var stripeEvent = EventUtility.ParseEvent(json);

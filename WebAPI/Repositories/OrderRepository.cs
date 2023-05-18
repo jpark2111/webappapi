@@ -6,17 +6,16 @@ namespace WebAPI.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-
-        public OrderRepository()
+        IConfiguration _configuration;
+        public OrderRepository(IConfiguration configuration)
         {
-
+            _configuration = configuration;
         }
 
         public int Add(OrderRequest model)
         {
             int Id = 0;
-            string connectionString =
-            "Server=127.0.0.1,1433; Database=test;User=sa;Password=Banggu!8;";
+            string connectionString = _configuration.GetValue<string>("ConnectionStrings:Default");
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
