@@ -27,7 +27,7 @@ public class Startup
 
         Cors.ConfigureServices(services);
 
-        OAuth.ConfigureServices(services);
+        //OAuth.ConfigureServices(services);
 
         HTTPClient.ConfigureServices(services);
 
@@ -40,10 +40,7 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI(_ =>
-            {
-                _.SwaggerEndpoint("/swagger/v1", "jaywebappapi");
-            });
+            app.UseSwaggerUI();
             app.UseDeveloperExceptionPage();
         }
 
