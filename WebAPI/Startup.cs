@@ -40,7 +40,10 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(_ =>
+            {
+                _.SwaggerEndpoint("/swagger/v1", "jaywebappapi");
+            });
             app.UseDeveloperExceptionPage();
         }
 
